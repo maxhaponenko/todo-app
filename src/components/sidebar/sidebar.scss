@@ -106,6 +106,9 @@
     transform: translate(-50%, 0);
     box-shadow: 0px 2px 7px 1px rgba(21, 35, 61, 0.5);
     transition: 0.2s all;
+    i {
+        font-size: 24px;
+    }
     &:hover {
         box-shadow: 0px 2px 7px 1px rgba(21, 35, 61, 0.7);
     }

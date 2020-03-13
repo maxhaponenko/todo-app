@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+
 import Sidebar from 'components/sidebar/sidebar';
 import Main from 'components/main/main';
 

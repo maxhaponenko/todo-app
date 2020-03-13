@@ -15,8 +15,8 @@ const Navigation = (props) => {
         <ul className="nav-menu">
             {menuModel.map((item, index) => {
                 return (
-                    <li>
-                        <NavLink key={index} to={item.path}>
+                    <li key={index}>
+                        <NavLink to={item.path}>
                             <div><i className={`${item.icon}`}></i></div>
                             {item.name}
                             </NavLink>

@@ -1,31 +1,33 @@
 import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
 
 
 const Folders = (props) => {
+
+    const folders = useSelector(state => state.items.folders)
+
     return (
         <Fragment>
-            <div className="folder">
-                <div className="folder__heading">
-                    Projects
-            </div>
-                <div className="folder__items-container">
-                    <ul>
-                        <li className="folder__item"><div><i class="fas fa-bars"></i></div>EverGo</li>
-                        <li className="folder__item"><div><i class="fas fa-bars"></i></div>Gemshark</li>
-                    </ul>
-                </div>
-            </div>
-            <div className="folder">
-                <div className="folder__heading">
-                    Learning
-                </div>
-                <div className="folder__items-container">
-                    <ul>
-                        <li className="folder__item"><div><i class="fas fa-bars"></i></div>Git</li>
-                        <li className="folder__item"><div><i class="fas fa-bars"></i></div>Hooks</li>
-                    </ul>
-                </div>
-            </div>
+            {folders.map((item, index) => {
+                return (
+                    <div key={index} className="folder">
+                        <div className="folder__heading">
+                            {item.name}
+                        </div>
+                        <div className="folder__items-container">
+                            <ul>
+                                {item.children && (
+                                    item.children.map((item, index) => {
+                                        return (
+                                            <li key={index} className="folder__item"><div><i className="fas fa-bars"></i></div>{item}</li>
+                                        )
+                                    })
+                                )}
+                            </ul>
+                        </div>
+                    </div>
+                )
+            })}
         </Fragment>
     )
 }
