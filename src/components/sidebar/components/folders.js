@@ -8,26 +8,28 @@ const Folders = (props) => {
 
     return (
         <Fragment>
-            {folders.map((item, index) => {
-                return (
-                    <div key={index} className="folder">
-                        <div className="folder__heading">
-                            {item.name}
+            <div style={{marginTop: 30}}>
+                {folders.map((item, index) => {
+                    return (
+                        <div key={index} className="folder">
+                            <div className="folder__heading">
+                                {item.name}
+                            </div>
+                            <div className="folder__items-container">
+                                <ul>
+                                    {item.children && (
+                                        item.children.map((item, index) => {
+                                            return (
+                                                <li key={index} className="folder__item"><div><i className="fas fa-bars"></i></div>{item}</li>
+                                            )
+                                        })
+                                    )}
+                                </ul>
+                            </div>
                         </div>
-                        <div className="folder__items-container">
-                            <ul>
-                                {item.children && (
-                                    item.children.map((item, index) => {
-                                        return (
-                                            <li key={index} className="folder__item"><div><i className="fas fa-bars"></i></div>{item}</li>
-                                        )
-                                    })
-                                )}
-                            </ul>
-                        </div>
-                    </div>
-                )
-            })}
+                    )
+                })}
+            </div>
         </Fragment>
     )
 }

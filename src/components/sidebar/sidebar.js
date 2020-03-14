@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Navigation from './components/navigation';
 import Folders from './components/folders';
@@ -17,7 +17,7 @@ const Sidebar = () => {
         children: []
     });
 
-    const addNewFolder = (name) => {
+    function addNewFolder(name) {
         dispatch({
             type: ADD_NEW_FOLDER,
             payload: {
@@ -28,6 +28,15 @@ const Sidebar = () => {
             }
         })
     }
+
+    function cleanupNewFolderProcess() {
+        setNewFolderProcess({
+            inProcess: false,
+            name: '',
+            uid: undefined,
+            children: []
+        })
+    }
  
     const createNewFolder = () => {
         setNewFolderProcess((prevState) => ({
@@ -35,28 +44,41 @@ const Sidebar = () => {
             inProcess: !prevState.inProcess
         }))
     }
-    const onPressEnterButton = useKeyPress('Enter')
-
+    
+    const newFolderInput = useRef();
     useEffect(() => {
-        if (onPressEnterButton === true) {
-            addNewFolder(newFolderProcess.name);
-            setNewFolderProcess({
-                inProcess: false,
-                name: '',
-                uid: 123123,
-                children: []
-            })
+        if (newFolderProcess.inProcess === true) {
+            newFolderInput.current.focus();
         }
-    }, [onPressEnterButton])
+    }, [newFolderProcess.inProcess])
+
+
+    const onPressEnterButton = useKeyPress('Enter')
+    const onPressEscapeButton = useKeyPress('Escape')
+    const addFolder = useCallback((name) => addNewFolder(name), [])
+    useEffect(() => {
+        if (onPressEnterButton === true && newFolderProcess.name.length > 0) {
+            addFolder(newFolderProcess.name)
+            cleanupNewFolderProcess()
+        } else if (onPressEscapeButton === true) {
+            cleanupNewFolderProcess()
+        }
+    }, [onPressEnterButton, onPressEscapeButton])
 
     return (
         <nav>
             <Navigation />
             <Folders />
             {newFolderProcess.inProcess && (
-                <input value={newFolderProcess.name} onChange={(e) => {
+                <input 
+                    ref={newFolderInput} 
+                    value={newFolderProcess.name} 
+                    onChange={(e) => {
                     e.persist()
-                    setNewFolderProcess(prevState => ({...prevState, name: e.target.value.toUpperCase()}))} } className="new-folder-input"></input>
+                    setNewFolderProcess(prevState => ({...prevState, name: e.target.value.toUpperCase()}))}} 
+                    onBlur={() => cleanupNewFolderProcess()}
+                    className="new-folder-input">    
+                </input>
             )}
             <div onClick={() => createNewFolder()} className="add-new-item"><i className="fas fa-plus"></i></div>
         </nav>
