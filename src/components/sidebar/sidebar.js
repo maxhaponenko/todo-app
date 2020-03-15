@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { v1 as uuidv1 } from 'uuid';
 import Navigation from './components/navigation';
 import Folders from './components/folders';
 import useKeyPress from 'hooks/useKeyPress';
@@ -12,9 +13,7 @@ const Sidebar = () => {
 
     const [newFolderProcess, setNewFolderProcess] = useState({
         inProcess: false,
-        name: '',
-        uid: 123123,
-        children: []
+        name: ''
     });
 
     function addNewFolder(name) {
@@ -22,8 +21,11 @@ const Sidebar = () => {
             type: ADD_NEW_FOLDER,
             payload: {
                 folder: {
+                    uid: uuidv1(),
                     name: name,
-                    uid: 123,
+                    active: true,
+                    inTrash: false,
+                    children: [],
                 }
             }
         })
@@ -32,9 +34,7 @@ const Sidebar = () => {
     function cleanupNewFolderProcess() {
         setNewFolderProcess({
             inProcess: false,
-            name: '',
-            uid: undefined,
-            children: []
+            name: ''
         })
     }
  

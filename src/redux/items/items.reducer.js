@@ -4,14 +4,14 @@ import { ADD_NEW_FOLDER } from 'redux/actionTypes';
 export const initialState = {
     folders: [
         {
-            uid: 1239912309401234,
+            uid: '7e64bca0-66e0-11ea-bb46-8debddd0ad2a',
             name: 'Projects',
             active: true,
             inTrash: false,
             children: ['EverDo', 'Rubicon', 'Gemshark'],
         },
         {
-            uid: 1239912309401234,
+            uid: '7e64bca0-66e0-11ea-bb46-8debddd0ad2b',
             name: 'Projects',
             active: false,
             inTrash: true,
